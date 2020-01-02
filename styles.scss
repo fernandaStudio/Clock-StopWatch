@@ -1,0 +1,214 @@
+:root {
+  --aspect-ratio: 1/1;
+}
+
+$colors: (
+  white: #f6f6f8,
+  black: #392e37,
+  red: #df0f14,
+  drkred: #ad0a0e,
+  burg: #610709,
+  rose: #c4545c,
+  grey: #78768a,
+  lgrey: #aeabb9
+);
+
+$font-sizes: (
+  14px: .875em,
+  16px: 1em,
+  18px: 1.125em,
+  20px: 1.25em,
+  22px: 1.375em,
+  24px: 1.5em,
+  26px: 1.625em,
+  28px: 1.75em,
+  32px: 2em,
+  36px: 2.25em,
+  40px: 2.5em,
+  48px: 3em
+);
+
+$breakpoints: (
+  xs: 320px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1280px
+);
+
+$percentages: (
+  "col-1": 100%,
+  "col-2": 50%,
+  "col-3": 33.3%,
+  "col-4": 25%,
+  "col-5": 20%,
+  "col-6": 16.666666667%,
+  "col-7": 14.2857142857%,
+  "col-8": 12.5%,
+  "col-9": 11.111111111%,
+  "col-10": 10%,
+  "col-11": 9.090909091%,
+  "col-12": 8.33%
+);
+
+$span: (
+  spn-1: span 1,
+  spn-2: span 2,
+  spn-3: span 3,
+  spn-4: span 4,
+  spn-5: span 5,
+  spn-6: span 6,
+  spn-7: span 7,
+  spn-8: span 8,
+  spn-9: span 9,
+  spn-10: span 10,
+  spn-11: span 11,
+  spn-12: span 12
+);
+
+$calc: calc(100% / (var(--aspect-ratio)));
+
+@mixin box-sizing($box-model) {
+  box-sizing: $box-model;
+  -moz-box-sizing: $box-model;
+  -webkit-box-sizing: $box-model;
+}
+@mixin clearfix($display) {
+  &:after {
+    display: $display;
+    content: "";
+    clear: both;
+  }
+}
+
+@mixin col-config($float: left, $display: inline) {
+  float: $float;
+  display: $display;
+}
+@mixin grid($gap, $display, $rows, $columns) {
+  display: $display;
+  grid-template: #{$rows} / #{$columns};
+  @if $gap > 0 {
+    grid-gap: $gap;
+  }
+  // display: -ms-#{$display};
+  // -ms-grid-rows: $rows;
+  // -ms-grid-columns: $columns;
+}
+@mixin grid-columns($gap, $display, $columns) {
+  display: $display;
+  grid-template-columns: $columns;
+  @if $gap > 0 {
+    grid-column-gap: $gap;
+  }
+  // display: -ms-#{$display};
+  // -ms-grid-columns: $columns;
+}
+@mixin grid-rows($gap, $display, $rows) {
+  display: $display;
+  grid-template-rows: $rows;
+  @if $gap > 0 {
+    grid-rows-gap: $gap;
+  }
+  // display: -ms-#{$display};
+  // -ms-grid-rows: $rows;
+}
+
+@mixin breakpoint-xs($breakpoint) {
+  @media (max-width: #{map-get($breakpoints, $breakpoint)}) {
+    @content;
+  }
+}
+@mixin breakpoint($breakpoint) {
+  @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+    @content;
+  }
+}
+
+@function col-width($width) {
+  @return map-get($percentages, $width);
+}
+
+@function span($key) {
+  @return map-get($span, $key);
+}
+
+@function color($color) {
+ @return map-get($colors, $color); 
+}
+
+%grid-config {
+  :root {
+    --aspect-ratio: 1/1;
+  }
+  *,
+  *:before,
+  *:after {
+    @include box-sizing(border-box);
+  }
+}
+%frame-config {
+  width: 100%;
+  @include clearfix(table);
+  @include grid-columns(0, grid, repeat(12, 1fr));
+}
+%col- {
+  @include col-config;
+  grid-column: span(spn-12);
+  width: col-width(col-1);
+  width: $calc;
+}
+%col-1 {
+  grid-column: span(spn-1);
+  width: $calc;
+}
+%col-2 {
+  @include breakpoint(sm) {
+    grid-column: span(spn-6);
+    width: col-width(col-2);
+    width: $calc;
+  }
+}
+%col-3 {
+  @include breakpoint(sm) {
+    grid-column: span(spn-4);
+    width: col-width(col-3);
+    width: $calc;
+  }
+}
+%col-4 {
+  @include breakpoint(sm) {
+    grid-column: span(spn-3);
+    width: col-width(col-4);
+    width: $calc;
+  }
+}
+%col-6 {
+  @include breakpoint(sm) {
+    grid-column: span(spn-2);
+    width: col-width(col-6);
+    width: $calc;
+  }
+}
+
+body { background-color: color(drkred); }
+.max-container {
+  @extend %grid-config;
+}
+[id*='frame-'] {
+  @extend %frame-config;
+  height: auto;
+  padding: 25px;
+  .col-2 {
+    @extend %col-;
+    @extend %col-2;
+  }
+  .col-2.red {
+   background-color: color(red);
+    height: auto;
+  }
+   .col-2.white {
+   background-color: color(white);
+  }
+}
+ul {list-style-type:none;}
