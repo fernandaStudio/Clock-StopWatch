@@ -5,15 +5,19 @@
 $colors: (
   white: #f6f6f8,
   black: #392e37,
-  red: #df0f14,
-  drkred: #ad0a0e,
   burg: #610709,
+  drkred: #ad0a0e,
+  rouge: #871828,
+  red: #df0f14,
   rose: #c4545c,
+  char: #392E37,
   grey: #78768a,
-  lgrey: #aeabb9
+  lgrey: #aeabb9,
+  greyish: #D7D5DC
 );
 
 $font-sizes: (
+  12px: .75em,
   14px: .875em,
   16px: 1em,
   18px: 1.125em,
@@ -22,18 +26,23 @@ $font-sizes: (
   24px: 1.5em,
   26px: 1.625em,
   28px: 1.75em,
+  30px: 1.875em,
   32px: 2em,
   36px: 2.25em,
   40px: 2.5em,
-  48px: 3em
+  42px: 2.625em,
+  44px: 2.75em,
+  48px: 3em,
+  50px: 3.125em
 );
 
 $breakpoints: (
   xs: 320px,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1280px
+  sm: 375px,
+  md: 534px,
+  mid: 768px,
+  lg: 960px,
+  xl: 1680px
 );
 
 $percentages: (
@@ -125,6 +134,23 @@ $calc: calc(100% / (var(--aspect-ratio)));
   }
 }
 
+@mixin animation($name, $duration) {
+  animation: $name $duration;
+  -webkit-animation: $name $duration;
+  -moz-animation: $name $duration;
+}
+@mixin keyframes($name) {
+  @keyframes #{$name} {
+    @content;
+  }
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+}
+
 @function col-width($width) {
   @return map-get($percentages, $width);
 }
@@ -134,7 +160,11 @@ $calc: calc(100% / (var(--aspect-ratio)));
 }
 
 @function color($color) {
- @return map-get($colors, $color); 
+ @return map-get($colors, $color);
+}
+
+@function font-size($size) {
+  @return map-get($font-sizes, $size);
 }
 
 %grid-config {
@@ -150,7 +180,7 @@ $calc: calc(100% / (var(--aspect-ratio)));
 %frame-config {
   width: 100%;
   @include clearfix(table);
-  @include grid-columns(0, grid, repeat(12, 1fr));
+  @include grid-columns(20px, grid, repeat(12, 1fr));
 }
 %col- {
   @include col-config;
@@ -163,7 +193,7 @@ $calc: calc(100% / (var(--aspect-ratio)));
   width: $calc;
 }
 %col-2 {
-  @include breakpoint(sm) {
+  @include breakpoint(lg) {
     grid-column: span(spn-6);
     width: col-width(col-2);
     width: $calc;
@@ -190,25 +220,209 @@ $calc: calc(100% / (var(--aspect-ratio)));
     width: $calc;
   }
 }
-
-body { background-color: color(drkred); }
+html {  font-family: 'Lato', sans-serif; }
+body {
+  @include breakpoint(xl) { padding-top: 100px; }
+  margin: 0;
+  padding: 40px 10px;
+  background-color: color(drkred);
+  }
+h1 { letter-spacing: 1px; display: inline-block; }
 .max-container {
+  @include breakpoint(lg) { max-width: 900px; margin:auto;}
+  @include breakpoint(xl) { max-width: 1200px; margin:auto;}
   @extend %grid-config;
-}
-[id*='frame-'] {
-  @extend %frame-config;
-  height: auto;
-  padding: 25px;
+  ul {
+    list-style-type: none;
+    margin: 0;
+  }
+  p { display: inline; }
+  [id*='frame-'] {
+    @extend %frame-config;
+    height: auto;
+  }
   .col-2 {
     @extend %col-;
     @extend %col-2;
   }
-  .col-2.red {
-   background-color: color(red);
-    height: auto;
-  }
-   .col-2.white {
-   background-color: color(white);
-  }
 }
-ul {list-style-type:none;}
+.col-2.left, .col-2.right {
+  @include breakpoint(sm) { max-width: 400px; margin: 0 auto; }
+  @include breakpoint(xl) { max-width: 550px; height: 750px; margin: 0 auto; }
+  background-color: color(white);
+  box-shadow: 5px 5px 10px color(burg);
+  text-align: center;
+  height: auto;
+  ul {
+    @include breakpoint-xs(xs) { padding: 40px 10px; }
+    @include breakpoint(md) { padding: 40px 40px; }
+    @include breakpoint(xl) { padding: 40px 60px; }
+    padding: 40px 20px;
+  }
+ }
+ div.left {
+   @include breakpoint(lg) { border-bottom: 0; }
+   border-bottom: 40px solid color(drkred);
+   li:nth-last-child(-n+6) { text-align: left; }
+   ul.quotes {
+     @include breakpoint(xl) { height: 90px; }
+     padding: 0px;
+     height: 75px;
+     @include keyframes(fadeIn) {
+       from { opacity: 0; }
+       to { opacity: 1; }
+     }
+     .quote, .quoter {
+       @include breakpoint(xl) { font-size: font-size(14px); }
+       font-size: font-size(12px);
+       letter-spacing: .5px;
+     }
+     .quoter { padding-top: 6px; }
+     .fadeIn { @include animation(fadeIn, 1s); }
+    }
+  }
+ div.right {
+    ul { padding-bottom: 0px; }
+    button {
+      @include breakpoint(xl) { font-size: font-size(14px); }
+      display: inline-block;
+      background-color: color(white);
+      border: 1px solid color(greyish);
+      font-size: font-size(12px);
+      &:focus { outline-color: color(greyish); }
+    }
+  }
+ .greeting, .head, .counter, .buttons { padding-bottom: 40px; }
+ .time .num, .counter {
+   @include breakpoint-xs(xs) { font-size: font-size(32px); }
+   @include breakpoint(md) { font-size: font-size(50px); }
+   font-size: font-size(48px);
+ }
+ .sec { font-size: font-size(36px); }
+ .time, .day {
+   @include breakpoint(xl) { padding-bottom: 100px; }
+   padding-bottom: 65px; }
+ .day, .dayQuote {
+   @include breakpoint-xs(xs) { font-size: font-size(30px);}
+   @include breakpoint(md) { font-size: font-size(40px);}
+   @include breakpoint(xl) { font-size: font-size(44px);}
+   font-size: font-size(36px);
+ }
+ .dayQuote { padding-bottom: 15px;}
+ .greeting, .head { font-size: font-size(26px); }
+ .date, .text {
+  @include breakpoint(xl) { font-size: font-size(18px); }
+  }
+ .circButtons {
+   @include breakpoint-xs(xs) {
+      padding-top: 25px;
+    }
+   ul.circs { padding: 0px 0px 30px; }
+   li.circ {
+     @include breakpoint-xs(xs) { margin-right: 6.5px; }
+     @include breakpoint(xl) {
+       margin-right: 12px;
+       width: 28px;
+       height: 28px;
+       font-size: font-size(14px);
+     }
+     display: inline-block;
+     float:left;
+     margin-right: 10px;
+     width: 22px;
+     height: 22px;
+     border-radius: 50px;
+     padding-top: 3px;
+     color: white;
+     font-size:12px;
+     font-weight: 300;
+     padding-left: 7px;
+     cursor: pointer;
+     &:hover { opacity: .5; }
+   }
+   li:nth-child(1) { background-color: color(burg); }
+   li:nth-child(2) { background-color: color(drkred); }
+   li:nth-child(3) { background-color: color(rouge); }
+   li:nth-child(4) { background-color: color(rose); }
+   li:nth-child(5) { background-color: color(char); }
+   li:nth-child(6) { background-color: color(grey); }
+   li:nth-child(7) { background-color: color(lgrey); }
+   li:nth-child(2), li:nth-child(4) {
+     @include breakpoint(xl) { padding-left: 8px; padding-top: 4px; }
+     padding-left: 6px;
+   }
+   li:nth-child(1), li:nth-child(7) {
+     @include breakpoint(xl) { padding-left: 10px; }
+     padding-left: 8px;
+   }
+   li:nth-child(3), li:nth-child(5), li:nth-child(6) {
+     @include breakpoint(xl) { padding-left: 11px; padding-top: 4px; }
+     padding-left: 9px;
+   }
+ }
+
+ div.laps {
+   @include breakpoint(sm) { max-width: 250px; }
+   @include breakpoint(xl) { max-width: 300px; padding-top: 20px; }
+   max-width: 200px;
+   position: relative;
+   height: auto;
+   margin: auto;
+   .lapsBg {
+     padding-bottom: 150px;
+     ul {
+       float: left;
+       width: 50%;
+       padding: 0;
+       li {
+         @include breakpoint(xl) { margin-bottom: 12px; height: 30px; }
+         margin-bottom: 8px; height: 25px;
+       }
+     }
+     ul.lapNumber {
+       @include breakpoint(xl) { font-size: font-size(14px); }
+       font-size: font-size(12px);
+       text-align: left;
+       width: 20%;
+       li {
+         @include breakpoint-xs(xs) { padding: 5px 0; }
+         padding: 5px 0 0 5px;
+       }
+     }
+     ul.lapColor {
+       text-align: left;
+       width: 80%;
+       padding-bottom: 40px;
+       li:nth-child(1) { background-color: color(burg); }
+       li:nth-child(2) { background-color: color(drkred); }
+       li:nth-child(3) { background-color: color(rouge); }
+       li:nth-child(4) { background-color: color(rose); }
+       li:nth-child(5) { background-color: color(char); }
+       li:nth-child(6) { background-color: color(grey); }
+       li:nth-child(7) { background-color: color(lgrey); }
+       li.clearButton { text-align: center; }
+     }
+   }
+   .lapsFg {
+     @include breakpoint(xl) { top:-17px; }
+     width: 100%;
+     position: absolute;
+     top: 3px;
+     right: -30%;
+     z-index: 2000;
+     ul {
+       width: 50%;
+       padding: 0px;
+       text-align: left;
+       li {
+         @include breakpoint(xl) { margin-bottom: 12px; height: 30px; }
+         margin-bottom: 8px; height: 25px;
+       }
+     }
+     .displayLaps {
+       color: color(white);
+       letter-spacing: 1px;
+       weight: 300;
+     }
+   }
+ }
