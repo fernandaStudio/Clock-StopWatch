@@ -1,50 +1,85 @@
 <!DOCTYPE html>
-<html lang='en'>
-<head>
-	<title>Clock / Stopwatch</title>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta http-equiv="cleartype" content="on">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	
-	<meta name="description" content="">
-	<meta name="copyright" content="©2018 Fernanda Studio">
-	<meta name="author" content="Fernanda Cox">
+<html lang="en">
+  <head>
+    <title>My Clock / Stopwatch</title>
 
-	<script src="./Clock.js" async></script>
-  	<script src="./Stopwatch.js" async></script>
-	
-	<link rel="stylesheet" type="text/css" href="./styles.css" />
-</head>
-	
-<body>
-	<div class="max-container">
-	  <div id="frame-2">
-	    <div class="col-2 red">
-	      <ul>
-		<li class="greeting">
-		  <h3>Good <span class="greet"></span></h3>
-		</li>
-		<li class="time"></li>
-		<li class="text">          
-		  <h3>Today is: <span class="quote"></span></h3>
-		</li> 
-		<li class="date"></li>
-		<li class="day"></li>
-	      </ul>
-	    </div>
-	    <div class="col-2 white">
-	      <ul>
-		<li class="counter"></li>
-		<li class="buttons">
-		  <button class="start">Start</button>
-		  <button class="reset">Reset</button>
-		  <button class="stop">Stop</button>
-		</li>
-		<li class="laps"></li>
-	      </ul>
-	   </div>
-	  </div>
-	</div>
-</body>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta http-equiv="cleartype" content="on">
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  	<meta name="description" content="Javascript Clock and Stopwatch">
+  	<meta name="copyright" content="©2020 Fernanda Studio">
+  	<meta name="author" content="Fernanda Cox">
+
+    <script src="./scripts/clock.js" async></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./sass/css/style.css" />
+
+  </head>
+  <body>
+  <div class="max-container">
+    <div id="frame-2">
+      <div class="col-2 left">
+        <ul>
+          <li class="greeting">
+            <p>Good <span class="greet"></span></p>
+          </li>
+          <li class="time">
+            <span class="num"></span>
+            <span class="sec"></span>
+            <span class="abrv"></span>
+          </li>
+          <li class="date"></li>
+          <li class="day"></li>
+          <li class="text">
+            <p>Today is:</p>
+          </li>
+          <li class="dayQuote"></li>
+          <ul class="quotes">
+            <li class="quote"></li>
+            <li class="quoter"></li>
+          </ul>
+          <li class="circButtons">
+            <ul class="circs">
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="col-2 right">
+        <ul class="stopwatch">
+          <li class="head">
+            <p>Stopwatch</p>
+          </li>
+          <li class="counter"></li>
+          <li class="buttons">
+            <button class="start">Start</button>
+            <button class="reset">Reset</button>
+            <button class="lap">Lap</button>
+            <button class="stop">Stop</button>
+          </li>
+        </ul>
+        <div class="col-1 laps">
+          <div class="lapsBg">
+            <ul class="lapNumber">
+            </ul>
+            <ul class="lapColor">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li class="clearButton"><button class="clear">Clear</button></li>
+            </ul>
+          </div>
+          <div class="lapsFg">
+            <ul class="displayLaps"></ul>
+          </div>
+        </div>
+     </div>
+    </div>
+  </div>
+  </body>
 </html>
